@@ -1,0 +1,100 @@
+class Employee {
+    
+    private String firstname;
+    private String lastname;
+    private int id;
+
+    public Employee(String firstname, String lastname, int id) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.id = id;
+    }
+
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return  "firstname=" + firstname + ", lastname=" + lastname + ", id=" + id ;
+    }
+    
+}
+
+
+ class SimpeHashTable {
+    
+    
+    private Employee[] hashtable;
+    
+    public SimpeHashTable()
+    {
+        hashtable=new Employee[10];
+    }
+    
+    private int hashkey(String key)
+    {
+        return key.length() % hashtable.length;
+    }
+    
+    public void put(String key,Employee emp)
+    {
+        int hashedkey=hashkey(key);
+        if(hashtable[hashedkey]!=null)
+        {
+            System.out.println("Already Ocuppied\nTry Again");
+        }
+        else
+        {
+            hashtable[hashedkey]=emp;
+        }
+    }
+    
+    public Employee get(String key)
+    {
+        int hashedkey=hashkey(key);
+        return hashtable[hashedkey];
+    }
+    
+    public void printHt()
+    {
+        for (Employee hashtable1 : hashtable) {
+            System.out.println(hashtable1);
+        }
+    }
+}
+
+
+
+public class HashTableArrayImplemetation {
+
+  
+    public static void main(String[] args) {
+       
+        Employee janeJones=new Employee("Jane","Jones",123);
+        Employee johnDoe=new Employee("John","Doe",153);
+        Employee marySmith=new Employee("Mary","Smith",163);
+        Employee mikeWilson=new Employee("Mike","Wilson",193);
+        
+        SimpeHashTable ht=new SimpeHashTable();
+        ht.put("Jones", janeJones);
+        ht.put("Doe", johnDoe);
+        ht.put("Smith", marySmith);
+        ht.put("Wilson",mikeWilson);
+        
+        ht.printHt();
+        
+        System.out.println("Retrieve key for wilson "+ ht.get("Wilson"));
+    
+    }
+    
+}
