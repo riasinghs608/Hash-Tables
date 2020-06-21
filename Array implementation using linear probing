@@ -1,0 +1,207 @@
+package hashtablearrayimplemetation;
+
+
+
+class Employee {
+    
+    private String firstname;
+    private String lastname;
+    private int id;
+
+    public Employee(String firstname, String lastname, int id) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.id = id;
+    }
+
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return  "firstname=" + firstname + ", lastname=" + lastname + ", id=" + id ;
+    }
+    
+}
+
+class StoredEmployee {
+    
+    public String k;
+    public Employee emp;
+
+    public StoredEmployee(String k, Employee emp) {
+        this.k = k;
+        this.emp = emp;
+    }
+}
+
+
+class LinearProbingImplementation {
+    
+    private StoredEmployee[] hashtable;
+    
+    public LinearProbingImplementation()
+    {
+        hashtable=new StoredEmployee[10];
+    }
+    
+    private int hashkey(String key)
+    {
+        return key.length() % hashtable.length;
+    }
+    
+    private boolean occupy(int index)
+    {
+        return hashtable[index]!=null;
+    }
+    
+    public void put(String key,Employee emp)
+    {
+        int hashedkey=hashkey(key);
+        if(occupy(hashedkey)==true)
+        {
+            int stop=hashedkey;
+            if(hashedkey==hashtable.length-1)
+            {
+                hashedkey=0;
+            }
+            else
+                hashedkey++;
+
+            while(occupy(hashedkey)==true && hashedkey !=stop)
+            {
+                hashedkey=(hashedkey+1)%hashtable.length;
+            }
+        }
+        if(occupy(hashedkey)==true)
+        {
+            System.out.println("Already occupied");
+        }
+        else
+        {
+            hashtable[hashedkey]=new StoredEmployee(key,emp);
+        }
+    }
+    
+    private int findKey(String ki)
+    {
+        int hashedkey=hashkey(ki);
+        if(hashtable[hashedkey]!=null && hashtable[hashedkey].k.equals(ki))
+             return hashedkey;
+        
+    
+        int stop = hashedkey;
+        if (hashedkey == hashtable.length - 1) {
+            hashedkey = 0;
+        }
+        else 
+        {
+            hashedkey++;
+        }
+
+        while (hashedkey!=stop && hashtable[hashedkey]!=null && !hashtable[hashedkey].k.equals(ki))
+        {
+            hashedkey = (hashedkey + 1) % hashtable.length;
+        }
+        
+        if (hashtable[hashedkey] != null && hashtable[hashedkey].k.equals(ki)) 
+        {
+            return hashedkey;
+        }
+        else 
+        {
+            return -1;
+        }
+    }
+
+    public Employee get(String key)
+    {
+        int hashedkey=findKey(key);
+        if(hashedkey == -1)
+            return null;
+        else
+        {
+            Employee employee = hashtable[hashedkey].emp;
+            return employee;
+        }
+           
+        
+    }
+    
+    public Employee remove(String key)
+    {
+        int hashedkey=findKey(key);
+        if(hashedkey==-1)
+        {
+            return null;
+        }
+        Employee emp=hashtable[hashedkey].emp;
+        hashtable[hashedkey]=null;
+        StoredEmployee[] oldhashtable=hashtable;
+        hashtable=new StoredEmployee[oldhashtable.length];
+        for(int i=0;i<oldhashtable.length;i++)
+        {
+            if(oldhashtable[i]!=null)
+            {
+                put(oldhashtable[i].k,oldhashtable[i].emp);
+            }
+        }
+        return emp;
+    }
+    
+    public void printHt()
+    {
+        for (int i=0;i<hashtable.length;i++)
+        {
+            if(hashtable[i]==null)
+            {
+                System.out.println("empty");
+            }
+            else
+            {
+                System.out.println("Position "+i+ ":" +hashtable[i].emp);
+            }
+        }
+    }
+    
+}
+
+
+
+public class HashTableArrayImplemetation {
+
+  
+    public static void main(String[] args) {
+       
+        Employee janeJones=new Employee("Jane","Jones",123);
+        Employee johnDoe=new Employee("John","Doe",153);
+        Employee marySmith=new Employee("Mary","Smith",163);
+        Employee mikeWilson=new Employee("Mike","Wilson",193);
+        
+   
+        
+        LinearProbingImplementation lp=new LinearProbingImplementation();
+        lp.put("Jones", janeJones);
+        lp.put("Doe", johnDoe);
+        lp.put("Smith", marySmith);
+        lp.put("Wilson",mikeWilson);
+        
+        lp.printHt();
+        System.out.println("Retrieve key for wilson "+ lp.get("Smith"));
+        lp.remove("Jones");
+        lp.printHt();
+        System.out.println("Retrieve key for Jones "+ lp.get("Jones"));
+       
+    }
+    
+}
