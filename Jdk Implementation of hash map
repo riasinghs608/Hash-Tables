@@ -1,0 +1,87 @@
+package hashmapimplementattion;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+
+/**
+ *
+ * @author pc
+ */
+ 
+  class Employee {
+    
+    private String firstname;
+    private String lastname;
+    private int id;
+
+    public Employee(String firstname, String lastname, int id) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.id = id;
+    }
+
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return  "firstname=" + firstname + ", lastname=" + lastname + ", id=" + id ;
+    }
+   
+}
+
+public class HashMapImplementattion {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+       
+        
+        Employee janeJones=new Employee("Jane","Jones",123);
+        Employee johnDoe=new Employee("John","Doe",153);
+        Employee marySmith=new Employee("Mary","Smith",163);
+        Employee mikeWilson=new Employee("Mike","Wilson",193);
+        Employee benDoe=new Employee("Ben","Doe",1983);
+        
+        Map<String,Employee> map=new HashMap<String,Employee>();
+        map.put("Jones", janeJones);
+        map.put("Doe", johnDoe);
+        map.put("Smith",marySmith);
+        map.put("Wilson", mikeWilson);
+        
+        /*Iterator <Employee>itr=map.values().iterator();
+        while(itr.hasNext())
+        {
+            System.out.println(itr.next());
+        }*/
+        
+       // map.forEach((K,V)->System.out.println("key= "+ K+" Employee= "+V));
+        //System.out.println(map.get("Smith"));
+        
+        System.out.println(map.containsKey("Doe"));  //faster
+      
+        System.out.println(map.containsValue(janeJones));
+        
+        //map.put("doe",mikeWilson);
+       // map.putIfAbsent("Doe", mikeWilson);
+        //map.forEach((K,V)->System.out.println("key= "+ K+" Employee= "+V));
+        //System.out.println(map.getOrDefault("Someone", marySmith));
+        System.out.println(map.remove("Smith"));
+        map.forEach((K,V)->System.out.println("key= "+ K+" Employee= "+V));
+
+        
+       
+    
+}
+}
